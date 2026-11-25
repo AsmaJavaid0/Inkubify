@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#142535"/>
+  <!-- Stylized bulb + upward gold arrow over cube base -->
+  <path d="M18 39L32 47L46 39V51L32 58L18 51V39Z" fill="#23384B" stroke="#C19829" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M32 10C24.8 10 19 15.8 19 23C19 27.9 21.7 32.1 25.8 34.3L26.5 38.5H37.5L38.2 34.3C42.3 32.1 45 27.9 45 23C45 15.8 39.2 10 32 10Z" fill="#F7F7F7"/>
+  <path d="M32 30V17M32 17L27.5 21.5M32 17L36.5 21.5" stroke="#C19829" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

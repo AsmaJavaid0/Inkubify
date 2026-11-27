@@ -93,7 +93,7 @@ async function handleSave() {
       <h3 class="text-sm font-semibold text-gold-500">Financial &amp; Resource Information</h3>
       <div class="grid gap-4 sm:grid-cols-2">
         <BaseInput id="available-budget" v-model="draft.available_budget_pkr" type="number" min="0" max="1000000000000" label="Available budget (PKR) placeholder="e.g. 100000" :error="errors.available_budget_pkr" />
-        <BaseInput id="team-members" v-model="draft.team_members" type="number" label="Current team members" placeholder="Enter number (0 if solo)" :error="errors.team_members" />
+        <BaseInput id="team-members" v-model="draft.team_members" type="number" min="0" max="100" label="Current team members placeholder="Enter number (0 if solo)" :error="errors.team_members" />
       </div>
       <SearchableMultiSelect id="available-resources" v-model="draft.available_resources" label="Available resources" :options="AVAILABLE_RESOURCE_OPTIONS" placeholder="Search available resources..." />
       <SearchableMultiSelect id="resource-info" v-model="draft.resource_info" label="Financial support / resource information" :options="RESOURCE_INFO_OPTIONS" placeholder="Search funding or support sources..." hint="Select all sources currently available to you." />

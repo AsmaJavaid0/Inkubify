@@ -7,7 +7,6 @@ import {
   EDUCATION_OPTIONS,
   OCCUPATION_OPTIONS,
   PRIOR_BUSINESS_OPTIONS,
-  WORK_EXPERIENCE_OPTIONS,
 } from '~/constants/options'
 import { stepBackgroundSchema } from '~/schemas/profile'
 import { useOnboardingStore } from '~/stores/onboarding'
@@ -38,7 +37,6 @@ async function handleSave() {
     education_level: draft.education_level,
     field_of_study: draft.field_of_study?.trim() || null,
     occupation_status: draft.occupation_status,
-    work_experience: draft.work_experience,
     prior_business: draft.prior_business,
   })
 
@@ -56,7 +54,6 @@ async function handleSave() {
       education_level: parsed.data.education_level,
       field_of_study: parsed.data.field_of_study || null,
       occupation_status: parsed.data.occupation_status,
-      work_experience: parsed.data.work_experience,
       prior_business: parsed.data.prior_business,
     }
     if (props.mode === 'wizard') {

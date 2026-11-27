@@ -4,7 +4,7 @@ _Last updated: 2026-11-27_
 
 ## 1. System Overview
 
-Inkubify is a Pakistan-only founder roadmap platform. Phase 1 covers splash/welcome screens, email+password sign-up with verification, login/password-reset, and a multi-step founder profile wizard.
+Inkubify is a Pakistan-only founder roadmap platform. Phase 1 covers splash/welcome screens, email+password sign-up with verification, username login/password-reset, and a multi-step founder profile wizard.
 
 ```
 ┌───────────────────────────┐        ┌──────────────────────────────┐
@@ -25,7 +25,7 @@ Inkubify is a Pakistan-only founder roadmap platform. Phase 1 covers splash/welc
 
 - `apps/web/` — Nuxt 3 frontend (TypeScript strict, Tailwind CSS, Pinia, VeeValidate + Zod, `@nuxtjs/supabase`).
 - `apps/api/` — FastAPI backend (`/api/v1`), Pydantic v2 validation, JWT verification, profile & catalog services.
-- `supabase/` — SQL migrations (`0001`–`0006`), skills catalog `seed.sql`, `config.toml`, email templates.
+- `supabase/` — SQL migrations (`0001`–`0007`), skills catalog `seed.sql`, `config.toml`, email templates.
 - `docs/` — Living project documentation (`PROGRESS.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `API.md`, `DATABASE.md`, `design/`).
 
 ## 3. Auth Flow
@@ -58,7 +58,7 @@ Inkubify is a Pakistan-only founder roadmap platform. Phase 1 covers splash/welc
 - Brand tokens: `navy-900` (`#142535`), `navy-700` (`#23384B`), `snow-100` (`#F7F7F7`), `gold-500` (`#C19829`).
 - Functional tokens: `danger`, `success`, `warning`.
 - Brand component: `components/brand/AppLogo.vue` (`sm | md | lg | splash`).
-- UI Kit (`components/ui/`): `BaseButton`, `BaseInput`, `BasePasswordInput`, `BasePhoneInput`, `BaseSelect`, `BaseTextarea`, `BaseCheckbox`, `BaseChipSelect`, `BaseStepper`, `BaseAvatarUpload`, `BaseToast`, `FormField`.
+- UI Kit (`components/ui/`): `BaseButton`, `BaseInput`, `BasePasswordInput`, `BasePhoneInput`, `BaseSelect`, `BaseTextarea`, `BaseCheckbox`, `BaseChipSelect`, `BaseStepper`, `BaseAvatarUpload`, `BaseToast`, `FormField`, `SearchableMultiSelect`.
 
 ## 6. Route Map and Guard Rules
 
@@ -84,5 +84,5 @@ See root `README.md` and `.env.example` files in root, `apps/web/`, and `apps/ap
 
 - Phase 1 captures founder information, skills, business interests, and available resources. A separate business profile (`/business/*`) remains reserved for Phase 2.
 - `apps/web/public/brand/logo.png` is pending owner upload (`AppLogo.vue` renders a brand-compliant SVG fallback until `logo.png` is added).
-- Hosted Supabase project (`auzcprvfomcolgrshzba`) requires applying `supabase/migrations/0001`–`0006` + `supabase/seed.sql` and setting `SUPABASE_SERVICE_ROLE_KEY` in `apps/api/.env` for live username checks and profile writes.
+- Hosted Supabase project (`auzcprvfomcolgrshzba`) requires applying `supabase/migrations/0001`–`0007` + `supabase/seed.sql` and setting `SUPABASE_SERVICE_ROLE_KEY` in `apps/api/.env` for live username checks and profile writes.
 - Email confirmation & SMTP rely on Supabase project settings.

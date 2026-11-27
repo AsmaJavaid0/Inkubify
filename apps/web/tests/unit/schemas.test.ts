@@ -1,18 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { signUpSchema } from '~/schemas/auth'
+import { loginSchema, signUpSchema } from '~/schemas/auth'
 import { stepGoalsSchema, stepPersonalSchema, stepSkillsSchema } from '~/schemas/profile'
 
 describe('auth schemas', () => {
   it('validates and normalizes valid signup payload', () => {
     const res = signUpSchema.safeParse({
-      full_name: '  Asma   Khan ',
-      username: 'Asma_Founder',
-      email: 'ASMA@Example.com ',
-      phone: '03001234567',
-      country_code: 'PK',
-      password: 'Password1',
-      confirm_password: 'Password1',
-      accept_terms: true,
+      full_name: '  Asma   Khan ', username: 'Asma_Founder', email: 'ASMA@Example.com ',
+      phone: '03001234567', country_code: 'PK', password: 'Password1',
+      confirm_password: 'Password1', accept_terms: true,
     })
     expect(res.success).toBe(true)
     if (res.success) {
@@ -22,18 +17,18 @@ describe('auth schemas', () => {
     }
   })
 
-  it('rejects reserved username and mismatched password', () => {
+  it('rejects reserved usernames and mismatched signup passwords', () => {
     const res = signUpSchema.safeParse({
-      full_name: 'Asma Khan',
-      username: 'admin',
-      email: 'asma@example.com',
-      phone: '03001234567',
-      country_code: 'PK',
-      password: 'Password1',
-      confirm_password: 'Password2',
-      accept_terms: true,
+      full_name: 'Asma Khan', username: 'admin', email: 'asma@example.com',
+      phone: '03001234567', country_code: 'PK', password: 'Password1',
+      confirm_password: 'Password2', accept_terms: true,
     })
     expect(res.success).toBe(false)
+  })
+
+  it('requires username rather than email for login', () => {
+    expect(loginSchema.safeParse({ username: 'asma_founder', password: 'Password1' }).success).toBe(true)
+    expect(loginSchema.safeParse({ email: 'asma@example.com', password: 'Password1' }).success).toBe(false)
   })
 })
 
@@ -42,10 +37,8 @@ describe('profile wizard schemas', () => {
     const today = new Date()
     const underage = `${today.getUTCFullYear() - 16}-01-01`
     const res = stepPersonalSchema.safeParse({
-      date_of_birth: underage,
-      province: 'Sindh',
-      city: 'Lahore',
-      preferred_language: 'en',
+      full_name: 'Asma Khan', date_of_birth: underage, province: 'Sindh',
+      city: 'Lahore', preferred_language: 'en',
     })
     expect(res.success).toBe(false)
     if (!res.success) {
@@ -55,30 +48,30 @@ describe('profile wizard schemas', () => {
     }
   })
 
-  it('requires 1 to 10 skills', () => {
-    expect(stepSkillsSchema.safeParse({ skills: [] }).success).toBe(false)
-    expect(
-      stepSkillsSchema.safeParse({
-        skills: [{ skill_id: 1, proficiency: 'intermediate' }],
-      }).success,
-    ).toBe(true)
+  it('allows custom skills when no catalog skill is selected', () => {
+    const res = stepSkillsSchema.safeParse({
+      skills: [], other_skills: 'Photography and copywriting',
+      experience_level: 'beginner', experience_years: '', portfolio_url: '',
+      linkedin_url: '', github_url: '', availability: 'part_time',
+    })
+    expect(res.success).toBe(true)
   })
 
-  it('validates instagram handle and linkedin URL', () => {
-    const ok = stepGoalsSchema.safeParse({
-      primary_goal: 'full_time_business',
-      weekly_hours: '10_20',
-      interested_in: ['ecommerce'],
-      instagram_url: '@inkubify.pk',
-      linkedin_url: 'https://www.linkedin.com/in/asma',
+  it('validates category-specific business models and financial inputs', () => {
+    const valid = stepGoalsSchema.safeParse({
+      business_category: 'ecommerce', business_model: 'dropshipping',
+      target_audience: ['individual_consumers'],
+      primary_goal: 'Build a differentiated online store',
+      expected_business_timeline: '3_6_months', available_budget_pkr: '150000',
+      available_resources: ['laptop_computer'], team_members: '1',
+      resource_info: ['personal_savings'],
     })
-    expect(ok.success).toBe(true)
-
-    const bad = stepGoalsSchema.safeParse({
-      primary_goal: 'full_time_business',
-      weekly_hours: '10_20',
-      linkedin_url: 'https://twitter.com/asma',
+    expect(valid.success).toBe(true)
+    const invalid = stepGoalsSchema.safeParse({
+      business_category: 'ecommerce', business_model: 'b2c',
+      primary_goal: 'Build an online store', expected_business_timeline: '3_6_months',
+      available_budget_pkr: '', team_members: '', available_resources: [], resource_info: [],
     })
-    expect(bad.success).toBe(false)
+    expect(invalid.success).toBe(false)
   })
 })

@@ -1,12 +1,9 @@
 -- 0007_founder_profile_expansion.sql
 -- Extend the existing founder profile; this is not a separate business profile.
+-- Preserve useful values from the fields replaced by this migration.
 
 alter table public.profiles
-  alter column primary_goal type text using primary_goal::text,
-  drop column work_experience,
-  drop column weekly_hours,
-  drop column interested_in,
-  drop column instagram_url;
+  alter column primary_goal type text using primary_goal::text;
 
 alter table public.profiles
   add column address text check (address is null or char_length(address) <= 250),
@@ -26,6 +23,55 @@ alter table public.profiles
   add column available_resources text[] not null default '{}',
   add column team_members smallint check (team_members between 0 and 100),
   add column resource_info text[] not null default '{}';
+
+-- Preserve the previous primary-goal meaning as readable text.
+update public.profiles
+set primary_goal = case primary_goal
+  when 'side_income' then 'Build a side income'
+  when 'full_time_business' then 'Launch a full-time business'
+  when 'scale_existing' then 'Scale an existing business'
+  when 'explore_learn' then 'Explore and learn about starting a business'
+  else primary_goal
+end;
+
+-- Convert the old multi-select category into the new single main category.
+-- If both were selected, E-commerce takes precedence; the founder can edit it later.
+update public.profiles
+set business_category = case
+  when 'ecommerce' = any(interested_in) then 'ecommerce'
+  when 'tech_services' = any(interested_in) then 'technology_based'
+  else null
+end;
+
+-- Preserve the previous experience range as an approximate numeric year value.
+update public.profiles
+set experience_years = case work_experience::text
+  when 'none' then 0
+  when 'lt_1' then 0
+  when '1_3' then 2
+  when '3_5' then 4
+  when '5_plus' then 5
+  else null
+end
+where work_experience is not null;
+
+-- Convert weekly time commitment into the new availability choices.
+update public.profiles
+set availability = case weekly_hours::text
+  when 'lt_5' then 'evenings_weekends'
+  when '5_10' then 'evenings_weekends'
+  when '10_20' then 'part_time'
+  when '20_40' then 'part_time'
+  when '40_plus' then 'full_time'
+  else null
+end
+where weekly_hours is not null;
+
+alter table public.profiles
+  drop column work_experience,
+  drop column weekly_hours,
+  drop column interested_in,
+  drop column instagram_url;
 
 alter table public.profiles
   add constraint profiles_primary_goal_length_check

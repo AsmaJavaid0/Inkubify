@@ -84,7 +84,7 @@ async function handleSave() {
     <BaseTextarea id="skills-other" v-model="draft.other_skills" label="Other skills" placeholder="Add skills not listed above, separated by commas..." :maxlength="1000" hint="Optional" :error="errors.other_skills" />
     <div class="grid gap-4 sm:grid-cols-2">
       <BaseSelect id="skills-level" v-model="draft.experience_level" label="Overall experience level" :options="[{value:'beginner',label:'Beginner'},{value:'intermediate',label:'Intermediate'},{value:'advanced',label:'Advanced'}]" placeholder="Select experience level" required :error="errors.experience_level" />
-      <BaseInput id="skills-years" v-model="draft.experience_years" type="number" label="Years of experience" placeholder="e.g. 2" :error="errors.experience_years" />
+      <BaseInput id="skills-years" v-model="draft.experience_years" type="number" min="0" max="60" label="Years of experience" placeholder="e.g. 2" :error="errors.experience_years" />
     </div>
     <div class="grid gap-4 sm:grid-cols-2">
       <BaseInput id="skills-portfolio" v-model="draft.portfolio_url" type="url" label="Portfolio URL" placeholder="https://yourportfolio.com" :error="errors.portfolio_url" />

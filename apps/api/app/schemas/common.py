@@ -64,33 +64,10 @@ class OccupationEnum(StrEnum):
     other = "other"
 
 
-class WorkExperienceEnum(StrEnum):
-    none = "none"
-    lt_1 = "lt_1"
-    one_to_three = "1_3"
-    three_to_five = "3_5"
-    five_plus = "5_plus"
-
-
 class PriorBusinessEnum(StrEnum):
     none = "none"
     tried_before = "tried_before"
     running_now = "running_now"
-
-
-class PrimaryGoalEnum(StrEnum):
-    side_income = "side_income"
-    full_time_business = "full_time_business"
-    scale_existing = "scale_existing"
-    explore_learn = "explore_learn"
-
-
-class WeeklyHoursEnum(StrEnum):
-    lt_5 = "lt_5"
-    five_to_ten = "5_10"
-    ten_to_twenty = "10_20"
-    twenty_to_forty = "20_40"
-    forty_plus = "40_plus"
 
 
 class ProficiencyEnum(StrEnum):
@@ -103,11 +80,6 @@ class OnboardingStatusEnum(StrEnum):
     not_started = "not_started"
     in_progress = "in_progress"
     completed = "completed"
-
-
-class InterestEnum(StrEnum):
-    ecommerce = "ecommerce"
-    tech_services = "tech_services"
 
 
 class AvailabilityEnum(StrEnum):

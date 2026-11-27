@@ -1,6 +1,6 @@
 # Architecture — Inkubify Phase 1
 
-_Last updated: 2026-11-25 (Initial seed from Phase 1 Spec)_
+_Last updated: 2026-11-27_
 
 ## 1. System Overview
 
@@ -30,28 +30,28 @@ Inkubify is a Pakistan-only founder roadmap platform. Phase 1 covers splash/welc
 
 ## 3. Auth Flow
 
-1. Browser talks directly to Supabase Auth via `@nuxtjs/supabase` (`signUp`, `signInWithPassword`, `resetPasswordForEmail`, `updateUser`, `signOut`).
-2. On `signUp`, user metadata (`username`, `full_name`, `phone`, `country_code: 'PK'`) triggers Postgres `handle_new_user()` to insert into `public.profiles`.
-3. Email confirmation sends the user to `/auth/confirm` which completes PKCE/OTP verification and triggers route guard redirection.
-4. For API requests, `useApi.ts` attaches `Authorization: Bearer <access_token>`, refreshing once on `401`.
-5. FastAPI verifies the JWT (JWKS or HS256), validates `exp`, `aud == "authenticated"`, and `iss`, and scopes Supabase DB calls to the user's JWT so RLS remains active.
+1. Sign-up, email verification, password reset, and password updates use Supabase Auth.
+2. Login accepts username + password. FastAPI privately resolves the username to its Auth user, then verifies the password through Supabase Auth and returns session tokens. No public username-to-email lookup is exposed.
+3. On `signUp`, user metadata (`username`, `full_name`, `phone`, `country_code: 'PK'`) triggers Postgres `handle_new_user()` to insert into `public.profiles`.
+4. Email confirmation sends the user to `/auth/confirm` which completes PKCE/OTP verification and triggers route guard redirection.
+5. For API requests, `useApi.ts` attaches `Authorization: Bearer <access_token>`, refreshing once on `401`.
+6. FastAPI verifies the JWT (JWKS or HS256), validates `exp`, `aud == "authenticated"`, and `iss`, and scopes Supabase DB calls to the user's JWT so RLS remains active.
 
 ## 4. Profile Wizard Data Flow
 
-- On entering `/onboarding/profile`, `profile` store loads `GET /api/v1/profiles/me` and `catalog/skills`.
-- `onboarding` store hydrates form drafts from server state and resumes at `onboarding.step`.
-- Each step **Next** calls `PATCH /api/v1/profiles/me` (or `PUT /api/v1/profiles/me/skills` for Step 3), recalculating `profile_completion` and advancing `onboarding_step`.
-- **Avatar upload** uploads directly to Supabase Storage (`avatars/{user_id}/avatar.<ext>`) and saves `avatar_url` via `PATCH /api/v1/profiles/me`.
-- **Finish** on the Review step calls `POST /api/v1/profiles/me/onboarding/complete`, which re-validates all required fields server-side before marking `onboarding_status = 'completed'`.
+- On entering `/onboarding/profile`, the profile store loads `GET /api/v1/profiles/me` and `catalog/skills`.
+- The wizard contains Personal Information, Education & Background, Skills & Expertise, Business & Resources, and Review & Finish.
+- Each step saves through `PATCH /api/v1/profiles/me`; catalog skills use `PUT /api/v1/profiles/me/skills`.
+- Avatar upload remains in Supabase Storage (`avatars/{user_id}/avatar.<ext>`).
+- Finish calls `POST /api/v1/profiles/me/onboarding/complete`, which re-validates required fields server-side.
 
-### Completion Calculation (`services/completion.py`)
-- Required step weights (25 points each, total 100 base):
-  - Personal (25): `date_of_birth`, `province`, `city`, `preferred_language` (filled / 4 * 25)
-  - Background (25): `education_level`, `occupation_status`, `work_experience`, `prior_business` (filled / 4 * 25)
-  - Skills (25): ≥ 1 skill selected (25 if ≥ 1 else 0)
-  - Goals (25): `primary_goal`, `weekly_hours` (filled / 2 * 25)
-- Optional bonus (up to +10 points, capped so total ≤ 100):
-  - `avatar_url` (+2.5), `bio` (+2.5), `field_of_study` (+2.5), social link (`instagram_url` or `linkedin_url`, +2.5).
+### Profile completion calculation (`services/completion.py`)
+- Personal information: 25 points (date of birth, province, city, preferred language).
+- Education/background: 15 points (education, occupation, prior business experience).
+- Skills/expertise: 20 points (catalog or custom skills, experience level, availability).
+- Business interests: 40 points (business category, compatible model, primary goal, expected timeline).
+- Financial/resource details, target audience, address, bio, and external links are optional and do not block completion.
+- Age is calculated from date of birth; it is not stored separately.
 
 ## 5. Design Tokens and Component Inventory
 
@@ -82,7 +82,7 @@ See root `README.md` and `.env.example` files in root, `apps/web/`, and `apps/ap
 
 ## 9. Known Limitations / Tech Debt
 
-- Phase 1 covers founder profile only; business profile (`/business/*`) is reserved for Phase 2.
+- Phase 1 captures founder information, skills, business interests, and available resources. A separate business profile (`/business/*`) remains reserved for Phase 2.
 - `apps/web/public/brand/logo.png` is pending owner upload (`AppLogo.vue` renders a brand-compliant SVG fallback until `logo.png` is added).
 - Hosted Supabase project (`auzcprvfomcolgrshzba`) requires applying `supabase/migrations/0001`–`0006` + `supabase/seed.sql` and setting `SUPABASE_SERVICE_ROLE_KEY` in `apps/api/.env` for live username checks and profile writes.
 - Email confirmation & SMTP rely on Supabase project settings.

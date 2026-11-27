@@ -69,14 +69,14 @@ class ProfilePatchRequest(BaseModel):
 
     business_category: BusinessCategoryEnum | None = None
     business_model: BusinessModelEnum | None = None
-    target_audience: list[TargetAudienceEnum] | None = None
+    target_audience: list[TargetAudienceEnum] | None = Field(default=None, max_length=8)
     primary_goal: str | None = None
     expected_business_timeline: BusinessTimelineEnum | None = None
 
     available_budget_pkr: int | None = Field(default=None, ge=0, le=1_000_000_000_000)
-    available_resources: list[AvailableResourceEnum] | None = None
+    available_resources: list[AvailableResourceEnum] | None = Field(default=None, max_length=9)
     team_members: int | None = Field(default=None, ge=0, le=100)
-    resource_info: list[ResourceInfoEnum] | None = None
+    resource_info: list[ResourceInfoEnum] | None = Field(default=None, max_length=7)
 
     onboarding_step: int | None = Field(default=None, ge=1, le=5)
 
@@ -158,6 +158,8 @@ class ProfilePatchRequest(BaseModel):
         cleaned = value.strip()
         if not cleaned:
             return None
+        if len(cleaned) < 2:
+            raise ValueError("Primary goal must be at least 2 characters")
         if len(cleaned) > 500:
             raise ValueError("Primary goal must be 500 characters or fewer")
         return cleaned

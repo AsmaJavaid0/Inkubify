@@ -35,14 +35,6 @@ export const OCCUPATION_OPTIONS: OptionItem[] = [
   { value: 'other', label: 'Other' },
 ]
 
-export const WORK_EXPERIENCE_OPTIONS: OptionItem[] = [
-  { value: 'none', label: 'No prior work experience' },
-  { value: 'lt_1', label: 'Less than 1 year' },
-  { value: '1_3', label: '1 – 3 years' },
-  { value: '3_5', label: '3 – 5 years' },
-  { value: '5_plus', label: '5+ years' },
-]
-
 export const PRIOR_BUSINESS_OPTIONS: OptionItem[] = [
   { value: 'none', label: 'Never run a business' },
   { value: 'tried_before', label: 'Tried before, stopped' },
@@ -70,9 +62,60 @@ export const WEEKLY_HOURS_OPTIONS: OptionItem[] = [
   { value: '40_plus', label: '40+ hours / week (full-time)' },
 ]
 
-export const INTERESTED_IN_OPTIONS: OptionItem<'ecommerce' | 'tech_services'>[] = [
-  { value: 'ecommerce', label: 'E-commerce (B2B, D2C, Dropshipping)' },
-  { value: 'tech_services', label: 'Tech-based (Apps, AI/Data, UI/UX)' },
+export const AVAILABILITY_OPTIONS: OptionItem[] = [
+  { value: 'full_time', label: 'Full-time' },
+  { value: 'part_time', label: 'Part-time' },
+  { value: 'evenings_weekends', label: 'Evenings / weekends' },
+  { value: 'flexible', label: 'Flexible' },
+]
+
+export const BUSINESS_CATEGORY_OPTIONS: OptionItem[] = [
+  { value: 'ecommerce', label: 'E-commerce' },
+  { value: 'technology_based', label: 'Technology-based business' },
+]
+export const ECOMMERCE_MODEL_OPTIONS: OptionItem[] = [
+  { value: 'b2b', label: 'B2B' }, { value: 'd2c', label: 'D2C' },
+  { value: 'dropshipping', label: 'Dropshipping' },
+]
+export const TECHNOLOGY_MODEL_OPTIONS: OptionItem[] = [
+  { value: 'b2b', label: 'B2B' }, { value: 'b2c', label: 'B2C' },
+]
+export const BUSINESS_TIMELINE_OPTIONS: OptionItem[] = [
+  { value: 'within_3_months', label: 'Within 3 months' },
+  { value: '3_6_months', label: '3–6 months' },
+  { value: '6_12_months', label: '6–12 months' },
+  { value: '1_2_years', label: '1–2 years' },
+  { value: 'exploring', label: 'Still exploring' },
+]
+export const TARGET_AUDIENCE_OPTIONS: OptionItem[] = [
+  { value: 'individual_consumers', label: 'Individual consumers' },
+  { value: 'small_businesses', label: 'Small businesses' },
+  { value: 'startups', label: 'Startups' },
+  { value: 'enterprises', label: 'Large enterprises' },
+  { value: 'students', label: 'Students' },
+  { value: 'professionals', label: 'Working professionals' },
+  { value: 'government', label: 'Government organizations' },
+  { value: 'nonprofits', label: 'Non-profit organizations' },
+]
+export const AVAILABLE_RESOURCE_OPTIONS: OptionItem[] = [
+  { value: 'laptop_computer', label: 'Laptop / computer' },
+  { value: 'internet', label: 'Reliable internet' },
+  { value: 'workspace', label: 'Workspace' },
+  { value: 'equipment', label: 'Equipment / tools' },
+  { value: 'inventory', label: 'Initial inventory' },
+  { value: 'supplier_network', label: 'Supplier network' },
+  { value: 'transport', label: 'Transport' },
+  { value: 'team', label: 'Team / collaborators' },
+  { value: 'other', label: 'Other resources' },
+]
+export const RESOURCE_INFO_OPTIONS: OptionItem[] = [
+  { value: 'personal_savings', label: 'Personal savings' },
+  { value: 'family_support', label: 'Family support' },
+  { value: 'bank_loan', label: 'Bank loan' },
+  { value: 'investor_funding', label: 'Investor funding' },
+  { value: 'grant', label: 'Grant / funding program' },
+  { value: 'incubator_support', label: 'Incubator support' },
+  { value: 'other', label: 'Other source of support' },
 ]
 
 export const WELCOME_SLIDES = [
@@ -94,9 +137,9 @@ export const WELCOME_SLIDES = [
 ] as const
 
 export const WIZARD_STEPS = [
-  { number: 1, title: 'Personal', shortTitle: 'Personal' },
-  { number: 2, title: 'Background', shortTitle: 'Background' },
+  { number: 1, title: 'Personal Information', shortTitle: 'Personal' },
+  { number: 2, title: 'Education & Background', shortTitle: 'Background' },
   { number: 3, title: 'Skills & Expertise', shortTitle: 'Skills' },
-  { number: 4, title: 'Goals & Availability', shortTitle: 'Goals' },
+  { number: 4, title: 'Business & Resources', shortTitle: 'Business' },
   { number: 5, title: 'Review & Finish', shortTitle: 'Review' },
 ] as const

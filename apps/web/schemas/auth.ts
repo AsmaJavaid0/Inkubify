@@ -82,7 +82,7 @@ export const signUpSchema = z
   })
 
 export const loginSchema = z.object({
-  email: emailSchema,
+  username: usernameSchema,
   password: z.string().min(1, 'Password is required'),
 })
 

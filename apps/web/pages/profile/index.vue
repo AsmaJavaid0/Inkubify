@@ -64,7 +64,7 @@ onMounted(loadProfile)
       </section>
 
       <section class="space-y-4 rounded-card border border-navy-border bg-navy-700 p-6">
-        <h2 class="text-lg font-semibold text-gold-500">Background</h2>
+        <h2 class="text-lg font-semibold text-gold-500">Education &amp; background</h2>
         <StepBackground mode="edit" />
       </section>
 

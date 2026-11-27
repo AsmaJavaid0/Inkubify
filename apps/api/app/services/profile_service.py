@@ -194,14 +194,17 @@ def replace_my_skills(
     existing, _ = _fetch_profile_and_skills(user_db, user.id)
 
     skill_ids = [item.skill_id for item in payload.skills]
-    catalog_res = (
-        user_db.table("skills")
-        .select("id")
-        .eq("is_active", True)
-        .in_("id", skill_ids)
-        .execute()
-    )
-    valid_ids = {row["id"] for row in (catalog_res.data or [])}
+    if skill_ids:
+        catalog_res = (
+            user_db.table("skills")
+            .select("id")
+            .eq("is_active", True)
+            .in_("id", skill_ids)
+            .execute()
+        )
+        valid_ids = {row["id"] for row in (catalog_res.data or [])}
+    else:
+        valid_ids = set()
     invalid_ids = [sid for sid in skill_ids if sid not in valid_ids]
     if invalid_ids:
         raise ApiError(
@@ -221,7 +224,8 @@ def replace_my_skills(
         }
         for item in payload.skills
     ]
-    user_db.table("profile_skills").insert(rows_to_insert).execute()
+    if rows_to_insert:
+        user_db.table("profile_skills").insert(rows_to_insert).execute()
 
     new_completion = compute_profile_completion(existing, len(rows_to_insert))
     system_updates: dict[str, Any] = {"profile_completion": new_completion}

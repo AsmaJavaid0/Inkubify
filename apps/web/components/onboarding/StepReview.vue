@@ -2,38 +2,24 @@
 import { CheckCircle2, Pencil } from 'lucide-vue-next'
 import BaseButton from '~/components/ui/BaseButton.vue'
 import {
-  EDUCATION_OPTIONS,
-  GENDER_OPTIONS,
-  INTERESTED_IN_OPTIONS,
-  LANGUAGE_OPTIONS,
-  OCCUPATION_OPTIONS,
-  PRIMARY_GOAL_OPTIONS,
-  PRIOR_BUSINESS_OPTIONS,
+  AVAILABILITY_OPTIONS, BUSINESS_CATEGORY_OPTIONS, BUSINESS_TIMELINE_OPTIONS,
+  EDUCATION_OPTIONS, GENDER_OPTIONS, OCCUPATION_OPTIONS, PRIOR_BUSINESS_OPTIONS,
   PROFICIENCY_OPTIONS,
-  WEEKLY_HOURS_OPTIONS,
-  WORK_EXPERIENCE_OPTIONS,
 } from '~/constants/options'
 import { useProfileStore } from '~/stores/profile'
 import { parseApiError } from '~/utils/errors'
 
-const emit = defineEmits<{
-  editStep: [step: number]
-  back: []
-}>()
-
+const emit = defineEmits<{ editStep: [step: number]; back: [] }>()
 const profileStore = useProfileStore()
 const finishing = ref(false)
 const completed = ref(false)
 const errorMsg = ref('')
 const fieldErrors = ref<Record<string, string>>({})
-
 const p = computed(() => profileStore.profile)
-
 function labelFor(options: readonly { value: string; label: string }[], value: string | null | undefined) {
   if (!value) return '—'
   return options.find((o) => o.value === value)?.label ?? value
 }
-
 async function handleFinish() {
   errorMsg.value = ''
   fieldErrors.value = {}
@@ -45,193 +31,86 @@ async function handleFinish() {
     const apiErr = parseApiError(err)
     errorMsg.value = apiErr.message
     fieldErrors.value = apiErr.fields
-  } finally {
-    finishing.value = false
-  }
+  } finally { finishing.value = false }
 }
 </script>
 
 <template>
   <div v-if="completed" class="space-y-6 py-6 text-center">
-    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-card bg-success/15 text-success">
-      <CheckCircle2 class="h-8 w-8" aria-hidden="true" />
-    </div>
+    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-card bg-success/15 text-success"><CheckCircle2 class="h-8 w-8" aria-hidden="true" /></div>
     <div class="space-y-2">
       <h2 class="text-2xl font-bold text-snow-100">Your founder profile is ready</h2>
-      <p class="mx-auto max-w-md text-sm text-snow-muted">
-        Everything is saved. Next, you can head to your dashboard and prepare for your business
-        profile setup.
-      </p>
+      <p class="mx-auto max-w-md text-sm text-snow-muted">Your personal details, expertise, business interests and available resources have been saved.</p>
     </div>
-    <BaseButton variant="primary" size="lg" @click="navigateTo('/dashboard')">
-      Go to dashboard
-    </BaseButton>
+    <BaseButton variant="primary" size="lg" @click="navigateTo('/dashboard')">Go to dashboard</BaseButton>
   </div>
-
   <div v-else-if="p" class="space-y-5">
-    <div
-      v-if="errorMsg"
-      role="alert"
-      class="space-y-2 rounded-input border border-danger/50 bg-danger/10 p-3.5 text-sm text-danger"
-    >
+    <div v-if="errorMsg" role="alert" class="space-y-2 rounded-input border border-danger/50 bg-danger/10 p-3.5 text-sm text-danger">
       <p class="font-medium">{{ errorMsg }}</p>
       <ul v-if="Object.keys(fieldErrors).length" class="list-disc pl-5 text-xs">
-        <li v-for="(msg, field) in fieldErrors" :key="field">
-          {{ field }}: {{ msg }}
-        </li>
+        <li v-for="(msg, field) in fieldErrors" :key="field">{{ field }}: {{ msg }}</li>
       </ul>
     </div>
-
-    <!-- Step 1 summary -->
     <section class="rounded-input border border-navy-border bg-navy-900/40 p-4">
       <div class="mb-3 flex items-center justify-between">
-        <h3 class="text-sm font-semibold text-gold-500">1. Personal</h3>
-        <button
-          type="button"
-          class="inline-flex items-center gap-1 text-xs font-medium text-snow-muted hover:text-gold-500"
-          @click="emit('editStep', 1)"
-        >
-          <Pencil class="h-3.5 w-3.5" aria-hidden="true" />
-          Edit
-        </button>
+        <h3 class="text-sm font-semibold text-gold-500">1. Personal Information</h3>
+        <button type="button" class="inline-flex items-center gap-1 text-xs text-snow-muted hover:text-gold-500" @click="emit('editStep', 1)"><Pencil class="h-3.5 w-3.5" />Edit</button>
       </div>
       <dl class="grid gap-2 text-sm sm:grid-cols-2">
-        <div>
-          <dt class="text-xs text-snow-muted">Date of birth</dt>
-          <dd>{{ p.date_of_birth || '—' }}</dd>
-        </div>
-        <div>
-          <dt class="text-xs text-snow-muted">Location</dt>
-          <dd>{{ p.city && p.province ? `${p.city}, ${p.province}` : '—' }}</dd>
-        </div>
-        <div>
-          <dt class="text-xs text-snow-muted">Gender</dt>
-          <dd>{{ labelFor(GENDER_OPTIONS, p.gender) }}</dd>
-        </div>
-        <div>
-          <dt class="text-xs text-snow-muted">Preferred language</dt>
-          <dd>{{ labelFor(LANGUAGE_OPTIONS, p.preferred_language) }}</dd>
-        </div>
-        <div class="sm:col-span-2">
-          <dt class="text-xs text-snow-muted">Bio</dt>
-          <dd>{{ p.bio || '—' }}</dd>
-        </div>
+        <div><dt class="text-xs text-snow-muted">Name</dt><dd>{{ p.full_name }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Date of birth</dt><dd>{{ p.date_of_birth || '—' }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Email</dt><dd>{{ p.email || '—' }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Phone</dt><dd>{{ p.phone_e164 }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Gender</dt><dd>{{ labelFor(GENDER_OPTIONS, p.gender) }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Country</dt><dd>Pakistan</dd></div>
+        <div class="sm:col-span-2"><dt class="text-xs text-snow-muted">Address / Location</dt><dd>{{ [p.address, p.city, p.province].filter(Boolean).join(', ') || '—' }}</dd></div>
       </dl>
     </section>
-
-    <!-- Step 2 summary -->
     <section class="rounded-input border border-navy-border bg-navy-900/40 p-4">
       <div class="mb-3 flex items-center justify-between">
-        <h3 class="text-sm font-semibold text-gold-500">2. Background</h3>
-        <button
-          type="button"
-          class="inline-flex items-center gap-1 text-xs font-medium text-snow-muted hover:text-gold-500"
-          @click="emit('editStep', 2)"
-        >
-          <Pencil class="h-3.5 w-3.5" aria-hidden="true" />
-          Edit
-        </button>
+        <h3 class="text-sm font-semibold text-gold-500">2. Education &amp; Background</h3>
+        <button type="button" class="inline-flex items-center gap-1 text-xs text-snow-muted hover:text-gold-500" @click="emit('editStep', 2)"><Pencil class="h-3.5 w-3.5" />Edit</button>
       </div>
       <dl class="grid gap-2 text-sm sm:grid-cols-2">
-        <div>
-          <dt class="text-xs text-snow-muted">Education</dt>
-          <dd>{{ labelFor(EDUCATION_OPTIONS, p.education_level) }}</dd>
-        </div>
-        <div>
-          <dt class="text-xs text-snow-muted">Field of study</dt>
-          <dd>{{ p.field_of_study || '—' }}</dd>
-        </div>
-        <div>
-          <dt class="text-xs text-snow-muted">Current status</dt>
-          <dd>{{ labelFor(OCCUPATION_OPTIONS, p.occupation_status) }}</dd>
-        </div>
-        <div>
-          <dt class="text-xs text-snow-muted">Work experience</dt>
-          <dd>{{ labelFor(WORK_EXPERIENCE_OPTIONS, p.work_experience) }}</dd>
-        </div>
-        <div>
-          <dt class="text-xs text-snow-muted">Prior business</dt>
-          <dd>{{ labelFor(PRIOR_BUSINESS_OPTIONS, p.prior_business) }}</dd>
-        </div>
+        <div><dt class="text-xs text-snow-muted">Education</dt><dd>{{ labelFor(EDUCATION_OPTIONS, p.education_level) }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Field of study</dt><dd>{{ p.field_of_study || '—' }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Occupation</dt><dd>{{ labelFor(OCCUPATION_OPTIONS, p.occupation_status) }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Previous business experience</dt><dd>{{ labelFor(PRIOR_BUSINESS_OPTIONS, p.prior_business) }}</dd></div>
       </dl>
     </section>
-
-    <!-- Step 3 summary -->
     <section class="rounded-input border border-navy-border bg-navy-900/40 p-4">
       <div class="mb-3 flex items-center justify-between">
         <h3 class="text-sm font-semibold text-gold-500">3. Skills &amp; Expertise</h3>
-        <button
-          type="button"
-          class="inline-flex items-center gap-1 text-xs font-medium text-snow-muted hover:text-gold-500"
-          @click="emit('editStep', 3)"
-        >
-          <Pencil class="h-3.5 w-3.5" aria-hidden="true" />
-          Edit
-        </button>
+        <button type="button" class="inline-flex items-center gap-1 text-xs text-snow-muted hover:text-gold-500" @click="emit('editStep', 3)"><Pencil class="h-3.5 w-3.5" />Edit</button>
       </div>
       <div v-if="p.skills.length" class="flex flex-wrap gap-2">
-        <span
-          v-for="s in p.skills"
-          :key="s.skill_id"
-          class="rounded-[10px] border border-navy-border bg-navy-700 px-3 py-1.5 text-xs"
-        >
-          {{ s.name }}
-          <span class="text-gold-500">· {{ labelFor(PROFICIENCY_OPTIONS, s.proficiency) }}</span>
-        </span>
+        <span v-for="s in p.skills" :key="s.skill_id" class="rounded-[10px] border border-navy-border bg-navy-700 px-3 py-1.5 text-xs">{{ s.name }} <span class="text-gold-500">· {{ labelFor(PROFICIENCY_OPTIONS, s.proficiency) }}</span></span>
       </div>
-      <p v-else class="text-sm text-snow-muted">No skills selected yet.</p>
+      <p v-if="p.other_skills" class="mt-2 text-sm text-snow-muted">Other skills: {{ p.other_skills }}</p>
+      <p class="mt-2 text-sm text-snow-muted">Overall level: {{ p.experience_level || '—' }} · {{ p.experience_years ?? '—' }} years</p>
+      <p class="mt-1 text-sm text-snow-muted">Availability: {{ labelFor(AVAILABILITY_OPTIONS, p.availability) }}</p>
+      <p class="mt-1 truncate text-xs text-snow-muted">{{ [p.portfolio_url, p.linkedin_url, p.github_url].filter(Boolean).join(' · ') || 'No portfolio links added' }}</p>
     </section>
-
-    <!-- Step 4 summary -->
     <section class="rounded-input border border-navy-border bg-navy-900/40 p-4">
       <div class="mb-3 flex items-center justify-between">
-        <h3 class="text-sm font-semibold text-gold-500">4. Goals &amp; Availability</h3>
-        <button
-          type="button"
-          class="inline-flex items-center gap-1 text-xs font-medium text-snow-muted hover:text-gold-500"
-          @click="emit('editStep', 4)"
-        >
-          <Pencil class="h-3.5 w-3.5" aria-hidden="true" />
-          Edit
-        </button>
+        <h3 class="text-sm font-semibold text-gold-500">4. Business Interests &amp; Resources</h3>
+        <button type="button" class="inline-flex items-center gap-1 text-xs text-snow-muted hover:text-gold-500" @click="emit('editStep', 4)"><Pencil class="h-3.5 w-3.5" />Edit</button>
       </div>
       <dl class="grid gap-2 text-sm sm:grid-cols-2">
-        <div>
-          <dt class="text-xs text-snow-muted">Primary goal</dt>
-          <dd>{{ labelFor(PRIMARY_GOAL_OPTIONS, p.primary_goal) }}</dd>
-        </div>
-        <div>
-          <dt class="text-xs text-snow-muted">Weekly time available</dt>
-          <dd>{{ labelFor(WEEKLY_HOURS_OPTIONS, p.weekly_hours) }}</dd>
-        </div>
-        <div>
-          <dt class="text-xs text-snow-muted">Interested in</dt>
-          <dd>
-            {{
-              p.interested_in.length
-                ? p.interested_in
-                    .map((i: string) => labelFor(INTERESTED_IN_OPTIONS, i))
-                    .join(', ')
-                : '—'
-            }}
-          </dd>
-        </div>
-        <div>
-          <dt class="text-xs text-snow-muted">Social links</dt>
-          <dd class="truncate">
-            {{ [p.instagram_url, p.linkedin_url].filter(Boolean).join(' · ') || '—' }}
-          </dd>
-        </div>
+        <div><dt class="text-xs text-snow-muted">Business category</dt><dd>{{ labelFor(BUSINESS_CATEGORY_OPTIONS, p.business_category) }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Business model</dt><dd>{{ p.business_model || '—' }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Expected timeline</dt><dd>{{ labelFor(BUSINESS_TIMELINE_OPTIONS, p.expected_business_timeline) }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Target audience</dt><dd>{{ p.target_audience.join(', ') || '—' }}</dd></div>
+        <div class="sm:col-span-2"><dt class="text-xs text-snow-muted">Primary goal</dt><dd>{{ p.primary_goal || '—' }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Available budget</dt><dd>{{ p.available_budget_pkr === null ? '—' : 'PKR ' + p.available_budget_pkr.toLocaleString() }}</dd></div>
+        <div><dt class="text-xs text-snow-muted">Team members</dt><dd>{{ p.team_members ?? '—' }}</dd></div>
+        <div class="sm:col-span-2"><dt class="text-xs text-snow-muted">Available resources</dt><dd>{{ p.available_resources.join(', ') || '—' }}</dd></div>
+        <div class="sm:col-span-2"><dt class="text-xs text-snow-muted">Financial / resource information</dt><dd>{{ p.resource_info.join(', ') || '—' }}</dd></div>
       </dl>
     </section>
-
     <div class="flex items-center justify-between pt-2">
-      <BaseButton type="button" variant="secondary" :disabled="finishing" @click="emit('back')">
-        Back
-      </BaseButton>
-      <BaseButton type="button" variant="primary" size="lg" :loading="finishing" @click="handleFinish">
-        Finish setup
-      </BaseButton>
+      <BaseButton type="button" variant="secondary" :disabled="finishing" @click="emit('back')">Back</BaseButton>
+      <BaseButton type="button" variant="primary" size="lg" :loading="finishing" @click="handleFinish">Finish setup</BaseButton>
     </div>
   </div>
 </template>

@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     SUPABASE_JWT_SECRET: str = ""
     SUPABASE_JWKS_URL: str = ""
     RATE_LIMIT_USERNAME_CHECK: str = "20/minute"
+    RATE_LIMIT_LOGIN: str = "5/minute"
 
     @property
     def jwks_url(self) -> str:

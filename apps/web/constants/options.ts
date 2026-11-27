@@ -47,21 +47,6 @@ export const PROFICIENCY_OPTIONS: OptionItem<'beginner' | 'intermediate' | 'adva
   { value: 'advanced', label: 'Advanced' },
 ]
 
-export const PRIMARY_GOAL_OPTIONS: OptionItem[] = [
-  { value: 'side_income', label: 'Build a side income' },
-  { value: 'full_time_business', label: 'Launch a full-time business' },
-  { value: 'scale_existing', label: 'Scale an existing venture' },
-  { value: 'explore_learn', label: 'Explore & learn first' },
-]
-
-export const WEEKLY_HOURS_OPTIONS: OptionItem[] = [
-  { value: 'lt_5', label: 'Less than 5 hours / week' },
-  { value: '5_10', label: '5 – 10 hours / week' },
-  { value: '10_20', label: '10 – 20 hours / week' },
-  { value: '20_40', label: '20 – 40 hours / week' },
-  { value: '40_plus', label: '40+ hours / week (full-time)' },
-]
-
 export const AVAILABILITY_OPTIONS: OptionItem[] = [
   { value: 'full_time', label: 'Full-time' },
   { value: 'part_time', label: 'Part-time' },

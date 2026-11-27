@@ -73,6 +73,10 @@ alter table public.profiles
   drop column interested_in,
   drop column instagram_url;
 
+drop type public.work_experience_t;
+drop type public.weekly_hours_t;
+drop type public.primary_goal_t;
+
 alter table public.profiles
   add constraint profiles_primary_goal_length_check
     check (primary_goal is null or char_length(primary_goal) between 2 and 500),

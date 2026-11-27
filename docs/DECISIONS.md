@@ -62,3 +62,18 @@
 - Context: Spec §4.3 specifies deriving a favicon from the bulb/arrow area of the logo and recording how in `DECISIONS.md`; owner has not yet supplied `logo.png`.
 - Decision: Provide a clean SVG favicon (`apps/web/public/brand/favicon.svg`) and PNG icon depicting the navy cube / glowing gold bulb+arrow motif using strictly the brand palette (`#142535`, `#23384B`, `#F7F7F7`, `#C19829`), and wire `AppLogo.vue` to render `/brand/logo.png` (or a clean brand panel fallback if the file is absent/pending owner export).
 - Consequences: Once the owner places their `logo.png` in `apps/web/public/brand/logo.png`, `AppLogo.vue` displays it immediately without code changes.
+
+
+## D-009 — Expanded Founder Profile (Phase 1)
+- Date: 2026-11-27
+- Status: ACCEPTED
+- Context: The owner supplied a revised founder-profile field list covering personal details, skills/expertise, business interests, and financial/resources.
+- Decision: Extend the existing `public.profiles` row and existing `profile_skills` catalog/junction. Do not create a parallel profile table or a separate business profile in Phase 1. Keep the initial business categories limited to E-commerce and Technology-based businesses. E-commerce supports B2B, D2C, and Dropshipping; Technology-based supports B2B and B2C.
+- Consequences: Migration `0007_founder_profile_expansion.sql` adds the new fields and removes superseded fields. Age is derived from date of birth; financial/resource fields and external links remain optional. No Team Status field is included.
+
+## D-010 — Username-Based Login Without Email Disclosure
+- Date: 2026-11-27
+- Status: ACCEPTED
+- Context: The owner requires username + password login, while Supabase Auth authenticates using email + password.
+- Decision: The FastAPI login endpoint privately resolves a username to its Auth user, verifies credentials through Supabase Auth, and returns the Auth session. Never expose a public username-to-email lookup endpoint or return the account email from username resolution.
+- Consequences: Username login requires the API service-role key and is rate-limited. Supabase Auth remains the source of truth for password verification, email confirmation, and sessions.

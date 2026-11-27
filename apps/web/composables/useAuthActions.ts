@@ -8,6 +8,7 @@ export function useAuthActions() {
   const config = useRuntimeConfig()
   const profileStore = useProfileStore()
   const onboardingStore = useOnboardingStore()
+  const { request } = useApi()
 
   async function signUp(input: {
     email: string
@@ -54,14 +55,19 @@ export function useAuthActions() {
     }
   }
 
-  async function signIn(email: string, password: string) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email.trim().toLowerCase(),
-      password,
+  async function signIn(username: string, password: string) {
+    const result = await request<{
+      access_token: string
+      refresh_token: string
+    }>('/auth/login', {
+      method: 'POST',
+      body: { username: username.trim().toLowerCase(), password },
+    }, false)
+    const { data, error } = await supabase.auth.setSession({
+      access_token: result.access_token,
+      refresh_token: result.refresh_token,
     })
-    if (error) {
-      throw new Error(mapAuthErrorMessage(error))
-    }
+    if (error) throw new Error(mapAuthErrorMessage(error))
     return data
   }
 

@@ -23,6 +23,7 @@ Seed file: `supabase/seed.sql` (22 technical skills across 4 categories).
 - Province and city provide the Pakistan location. Country is fixed to `PK` for Phase 1.
 - Technical skills use `skills` + `profile_skills`; custom skills and experience metadata are stored on `profiles`.
 - Business category/model constraints enforce E-commerce (B2B, D2C, Dropshipping) and Technology-based (B2B, B2C).
+- Migration 0007 preserves old primary-goal text, maps previous interest to the new single category, and converts the old work-experience and weekly-hours values to approximate years and availability.
 - Available resources and funding/support sources are stored as validated text arrays.
 
 ## Regenerating TypeScript types

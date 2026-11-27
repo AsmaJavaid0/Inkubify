@@ -115,15 +115,6 @@ async function handleSave() {
       :error="errors.occupation_status"
     />
 
-    <BaseSelect
-      id="bg-work-exp"
-      v-model="draft.work_experience"
-      label="Work experience"
-      placeholder="Select work experience"
-      :options="WORK_EXPERIENCE_OPTIONS"
-      required
-      :error="errors.work_experience"
-    />
 
     <BaseChipSelect
       id="bg-prior-business"

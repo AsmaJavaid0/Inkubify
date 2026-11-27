@@ -74,7 +74,7 @@ onMounted(loadProfile)
       </section>
 
       <section class="space-y-4 rounded-card border border-navy-border bg-navy-700 p-6">
-        <h2 class="text-lg font-semibold text-gold-500">Goals &amp; availability</h2>
+        <h2 class="text-lg font-semibold text-gold-500">Business interests &amp; resources</h2>
         <StepGoals mode="edit" />
       </section>
     </template>

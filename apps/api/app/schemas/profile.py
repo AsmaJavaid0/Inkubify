@@ -185,7 +185,7 @@ class ProfilePatchRequest(BaseModel):
     @field_validator("target_audience", "available_resources", "resource_info")
     @classmethod
     def deduplicate_selections(cls, value):
-        return list(dict.fromkeys(value)) if value is not None else None
+        return list(dict.fromkeys(value)) if value is not None else []
 
     @model_validator(mode="after")
     def check_location_and_business_model(self) -> "ProfilePatchRequest":

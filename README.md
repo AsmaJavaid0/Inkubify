@@ -47,7 +47,7 @@ supabase link --project-ref <project-ref>
 supabase db push
 ```
 
-If applying manually via the Supabase SQL Editor, run `supabase/migrations/0001_extensions_and_enums.sql` through `0006_storage_avatars.sql` in order, followed by `supabase/seed.sql`.
+If applying manually via the Supabase SQL Editor, run `supabase/migrations/0001_extensions_and_enums.sql` through `0007_founder_profile_expansion.sql` in order, followed by `supabase/seed.sql`.
 
 Ensure **Confirm email** is enabled in Supabase Auth settings (Authentication → Providers → Email), and configure Site URL / Redirect URLs to include `http://localhost:3000/auth/confirm` and `http://localhost:3000/reset-password`.
 

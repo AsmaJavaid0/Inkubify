@@ -85,7 +85,7 @@ function setProficiency(skillId: number, proficiency: Proficiency) {
   <div class="space-y-5">
     <div class="flex flex-wrap items-center justify-between gap-2">
       <p class="text-xs text-snow-muted">
-        Select 1 to 10 skills and set your proficiency for each.
+        Select up to 10 technical skills and set your proficiency for each. If a skill is not listed, add it in Other Skills below.
       </p>
       <span
         class="rounded-full border border-navy-border bg-navy-900/60 px-2.5 py-0.5 text-xs font-medium"

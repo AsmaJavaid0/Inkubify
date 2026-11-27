@@ -19,40 +19,31 @@ export interface Database {
           avatar_url: string | null
           date_of_birth: string | null
           gender: 'female' | 'male' | 'other' | 'prefer_not_to_say' | null
+          address: string | null
           province: string | null
           city: string | null
           bio: string | null
           preferred_language: 'en' | 'ur'
-          education_level:
-            | 'matric_olevels'
-            | 'intermediate_alevels'
-            | 'diploma'
-            | 'bachelors'
-            | 'masters'
-            | 'phd'
-            | 'other'
-            | null
+          education_level: 'matric_olevels' | 'intermediate_alevels' | 'diploma' | 'bachelors' | 'masters' | 'phd' | 'other' | null
           field_of_study: string | null
-          occupation_status:
-            | 'student'
-            | 'employed'
-            | 'self_employed'
-            | 'freelancer'
-            | 'unemployed'
-            | 'other'
-            | null
-          work_experience: 'none' | 'lt_1' | '1_3' | '3_5' | '5_plus' | null
+          occupation_status: 'student' | 'employed' | 'self_employed' | 'freelancer' | 'unemployed' | 'other' | null
           prior_business: 'none' | 'tried_before' | 'running_now' | null
-          primary_goal:
-            | 'side_income'
-            | 'full_time_business'
-            | 'scale_existing'
-            | 'explore_learn'
-            | null
-          weekly_hours: 'lt_5' | '5_10' | '10_20' | '20_40' | '40_plus' | null
-          interested_in: string[]
-          instagram_url: string | null
+          other_skills: string | null
+          experience_level: 'beginner' | 'intermediate' | 'advanced' | null
+          experience_years: number | null
+          portfolio_url: string | null
           linkedin_url: string | null
+          github_url: string | null
+          availability: 'full_time' | 'part_time' | 'evenings_weekends' | 'flexible' | null
+          business_category: 'ecommerce' | 'technology_based' | null
+          business_model: 'b2b' | 'd2c' | 'dropshipping' | 'b2c' | null
+          target_audience: string[]
+          primary_goal: string | null
+          expected_business_timeline: 'within_3_months' | '3_6_months' | '6_12_months' | '1_2_years' | 'exploring' | null
+          available_budget_pkr: number | null
+          available_resources: string[]
+          team_members: number | null
+          resource_info: string[]
           onboarding_status: 'not_started' | 'in_progress' | 'completed'
           onboarding_step: number
           profile_completion: number
@@ -72,40 +63,31 @@ export interface Database {
           avatar_url?: string | null
           date_of_birth?: string | null
           gender?: 'female' | 'male' | 'other' | 'prefer_not_to_say' | null
+          address?: string | null
           province?: string | null
           city?: string | null
           bio?: string | null
           preferred_language?: 'en' | 'ur'
-          education_level?:
-            | 'matric_olevels'
-            | 'intermediate_alevels'
-            | 'diploma'
-            | 'bachelors'
-            | 'masters'
-            | 'phd'
-            | 'other'
-            | null
+          education_level?: 'matric_olevels' | 'intermediate_alevels' | 'diploma' | 'bachelors' | 'masters' | 'phd' | 'other' | null
           field_of_study?: string | null
-          occupation_status?:
-            | 'student'
-            | 'employed'
-            | 'self_employed'
-            | 'freelancer'
-            | 'unemployed'
-            | 'other'
-            | null
-          work_experience?: 'none' | 'lt_1' | '1_3' | '3_5' | '5_plus' | null
+          occupation_status?: 'student' | 'employed' | 'self_employed' | 'freelancer' | 'unemployed' | 'other' | null
           prior_business?: 'none' | 'tried_before' | 'running_now' | null
-          primary_goal?:
-            | 'side_income'
-            | 'full_time_business'
-            | 'scale_existing'
-            | 'explore_learn'
-            | null
-          weekly_hours?: 'lt_5' | '5_10' | '10_20' | '20_40' | '40_plus' | null
-          interested_in?: string[]
-          instagram_url?: string | null
+          other_skills?: string | null
+          experience_level?: 'beginner' | 'intermediate' | 'advanced' | null
+          experience_years?: number | null
+          portfolio_url?: string | null
           linkedin_url?: string | null
+          github_url?: string | null
+          availability?: 'full_time' | 'part_time' | 'evenings_weekends' | 'flexible' | null
+          business_category?: 'ecommerce' | 'technology_based' | null
+          business_model?: 'b2b' | 'd2c' | 'dropshipping' | 'b2c' | null
+          target_audience?: string[]
+          primary_goal?: string | null
+          expected_business_timeline?: 'within_3_months' | '3_6_months' | '6_12_months' | '1_2_years' | 'exploring' | null
+          available_budget_pkr?: number | null
+          available_resources?: string[]
+          team_members?: number | null
+          resource_info?: string[]
           onboarding_step?: number
         }
       }

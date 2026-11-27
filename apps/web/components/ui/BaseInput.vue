@@ -5,7 +5,7 @@ interface Props {
   id: string
   label: string
   modelValue: string | null | undefined
-  type?: 'text' | 'email' | 'date' | 'url'
+  type?: 'text' | 'email' | 'date' | 'url' | 'number'
   placeholder?: string
   hint?: string
   error?: string

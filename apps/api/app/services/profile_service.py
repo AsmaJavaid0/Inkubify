@@ -45,6 +45,7 @@ def _build_profile_response(
         avatar_url=row.get("avatar_url"),
         date_of_birth=row.get("date_of_birth"),
         gender=row.get("gender"),
+        address=row.get("address"),
         province=row.get("province"),
         city=row.get("city"),
         bio=row.get("bio"),
@@ -52,13 +53,23 @@ def _build_profile_response(
         education_level=row.get("education_level"),
         field_of_study=row.get("field_of_study"),
         occupation_status=row.get("occupation_status"),
-        work_experience=row.get("work_experience"),
         prior_business=row.get("prior_business"),
-        primary_goal=row.get("primary_goal"),
-        weekly_hours=row.get("weekly_hours"),
-        interested_in=row.get("interested_in") or [],
-        instagram_url=row.get("instagram_url"),
+        other_skills=row.get("other_skills"),
+        experience_level=row.get("experience_level"),
+        experience_years=row.get("experience_years"),
+        portfolio_url=row.get("portfolio_url"),
         linkedin_url=row.get("linkedin_url"),
+        github_url=row.get("github_url"),
+        availability=row.get("availability"),
+        business_category=row.get("business_category"),
+        business_model=row.get("business_model"),
+        target_audience=row.get("target_audience") or [],
+        primary_goal=row.get("primary_goal"),
+        expected_business_timeline=row.get("expected_business_timeline"),
+        available_budget_pkr=row.get("available_budget_pkr"),
+        available_resources=row.get("available_resources") or [],
+        team_members=row.get("team_members"),
+        resource_info=row.get("resource_info") or [],
         skills=skills,
         onboarding=OnboardingInfo(
             status=row.get("onboarding_status", "not_started"),
@@ -115,6 +126,24 @@ def patch_my_profile(
 ) -> ProfileResponse:
     existing, skills_rows = _fetch_profile_and_skills(user_db, user.id)
     raw_updates = payload.model_dump(mode="json", exclude_unset=True)
+
+    # Validate the merged business category/model pair, including partial updates.
+    effective_category = raw_updates.get("business_category", existing.get("business_category"))
+    effective_model = raw_updates.get("business_model", existing.get("business_model"))
+    allowed_models = {
+        "ecommerce": {"b2b", "d2c", "dropshipping"},
+        "technology_based": {"b2b", "b2c"},
+    }
+    if effective_model and (
+        effective_category not in allowed_models
+        or effective_model not in allowed_models[effective_category]
+    ):
+        raise ApiError(
+            status_code=422,
+            code="validation_error",
+            message="The selected business model does not match the business category",
+            fields={"business_model": "Choose a model supported by the selected category"},
+        )
 
     # Validate merged province + city consistency
     effective_province = (

@@ -108,3 +108,63 @@ class OnboardingStatusEnum(StrEnum):
 class InterestEnum(StrEnum):
     ecommerce = "ecommerce"
     tech_services = "tech_services"
+
+
+class AvailabilityEnum(StrEnum):
+    full_time = "full_time"
+    part_time = "part_time"
+    evenings_weekends = "evenings_weekends"
+    flexible = "flexible"
+
+
+class BusinessCategoryEnum(StrEnum):
+    ecommerce = "ecommerce"
+    technology_based = "technology_based"
+
+
+class BusinessModelEnum(StrEnum):
+    b2b = "b2b"
+    d2c = "d2c"
+    dropshipping = "dropshipping"
+    b2c = "b2c"
+
+
+class BusinessTimelineEnum(StrEnum):
+    within_3_months = "within_3_months"
+    three_to_six_months = "3_6_months"
+    six_to_twelve_months = "6_12_months"
+    one_to_two_years = "1_2_years"
+    exploring = "exploring"
+
+
+class TargetAudienceEnum(StrEnum):
+    individual_consumers = "individual_consumers"
+    small_businesses = "small_businesses"
+    startups = "startups"
+    enterprises = "enterprises"
+    students = "students"
+    professionals = "professionals"
+    government = "government"
+    nonprofits = "nonprofits"
+
+
+class AvailableResourceEnum(StrEnum):
+    laptop_computer = "laptop_computer"
+    internet = "internet"
+    workspace = "workspace"
+    equipment = "equipment"
+    inventory = "inventory"
+    supplier_network = "supplier_network"
+    transport = "transport"
+    team = "team"
+    other = "other"
+
+
+class ResourceInfoEnum(StrEnum):
+    personal_savings = "personal_savings"
+    family_support = "family_support"
+    bank_loan = "bank_loan"
+    investor_funding = "investor_funding"
+    grant = "grant"
+    incubator_support = "incubator_support"
+    other = "other"

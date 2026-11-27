@@ -219,7 +219,7 @@ class SkillItemInput(BaseModel):
 class ProfileSkillsPutRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    skills: list[SkillItemInput] = Field(min_length=1, max_length=10)
+    skills: list[SkillItemInput] = Field(max_length=10)
 
     @model_validator(mode="after")
     def check_unique_skills(self) -> "ProfileSkillsPutRequest":
